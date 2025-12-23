@@ -4,7 +4,7 @@ setlocal enabledelayedexpansion
 
 rem Check if game name is correct (by DeepSeek)
 for %%g in (TIC_TAC_TOE GOMOKU) do (
-	if /i "%1"=="%%g" (
+	if "%1"=="%%g" (
 		goto :execute
 	)
 )
