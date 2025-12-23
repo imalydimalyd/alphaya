@@ -20,9 +20,9 @@ namespace AlphaYa
 		typedef typename State::Action Action;
 		typedef typename State::Data Data;
 
-		Action move(const State &state,std::istream &in, std::ostream &out) 
+		Action move(const State &state, std::istream &in, std::ostream &out)
 		{
-		std::unordered_map<std::string, Action> actions;
+			std::unordered_map<std::string, Action> actions;
 			for (const Action &action : state.generateActions())
 			{
 				std::ostringstream out;

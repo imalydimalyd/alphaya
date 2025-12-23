@@ -45,7 +45,7 @@ namespace AlphaYa
 			*/
 			bool operator==(const TicTacToeAction &o) const
 			{
-				return position==o.position;
+				return position == o.position;
 			}
 		};
 
@@ -69,12 +69,12 @@ namespace AlphaYa
 		class TicTacToeState : public State<2, TicTacToeData, TicTacToeAction>
 		{
 		public:
-		/*
-		Returns id of the current player
-		*/
+			/*
+			Returns id of the current player
+			*/
 			IndexType toMove() const
 			{
-				const TicTacToeData &data=getData();
+				const TicTacToeData &data = getData();
 				return data.side;
 			}
 
@@ -83,7 +83,7 @@ namespace AlphaYa
 			*/
 			std::vector<TicTacToeAction> generateActions() const
 			{
-				const TicTacToeData &data=getData();
+				const TicTacToeData &data = getData();
 				const std::uint16_t bitboard = data.bitboard0 | data.bitboard1;
 				std::vector<TicTacToeAction> actions;
 				actions.reserve(9);
@@ -102,7 +102,7 @@ namespace AlphaYa
 			*/
 			void move(const TicTacToeAction &action)
 			{
-				 TicTacToeData &data=getData();
+				TicTacToeData &data = getData();
 				const std::uint16_t mask = (((std::uint16_t)1) << action.position);
 				data.side ? (data.bitboard1 |= mask) : (data.bitboard0 |= mask);
 				data.side ^= 1;
@@ -115,7 +115,7 @@ namespace AlphaYa
 			*/
 			bool calculateScore(ScoreType scores[2]) const
 			{
-				const TicTacToeData &data=getData();
+				const TicTacToeData &data = getData();
 				for (const std::uint16_t line : lines)
 				{
 					if ((data.bitboard0 & line) == line)
@@ -148,7 +148,7 @@ namespace AlphaYa
 			*/
 			void init(const std::string &state_string)
 			{
-				 TicTacToeData &data=getData();
+				TicTacToeData &data = getData();
 				data.bitboard0 = 0;
 				data.bitboard1 = 0;
 				IndexType count0 = 0, count1 = 0;
@@ -180,7 +180,7 @@ namespace AlphaYa
 			*/
 			void output(std::ostream &out, const std::string &method) const
 			{
-				const TicTacToeData &data=getData();
+				const TicTacToeData &data = getData();
 				if (method == "terminal")
 				{
 					out << "\033[0;90m    a   b   c \033[0m" << std::endl;

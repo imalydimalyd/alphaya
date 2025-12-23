@@ -4,7 +4,6 @@
 
 #include <istream>
 #include <ostream>
-#include <type_traits>
 
 namespace AlphaYa
 {
@@ -18,8 +17,6 @@ namespace AlphaYa
 		typedef typename State::Action Action;
 		typedef typename State::Data Data;
 
-		//patch
-		//virtual void setState(const State &state) = 0;
-		virtual Action move(const State &state,std::istream &in, std::ostream &out)  = 0;
+		virtual Action move(const State &state, std::istream &in, std::ostream &out) = 0;
 	};
 };

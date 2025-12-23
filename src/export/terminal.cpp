@@ -12,12 +12,6 @@
 #include <string>
 #include <vector>
 
-//patch
-void dbg(const AlphaYaExport::State &s){
-for(size_t i=0;i<AlphaYaExport::State::byte_count;++i)std::cout<<(int)s.data.bytes[i]<<' ';
-std::cout<<std::endl;
-}
-
 int main()
 {
 	using AlphaYaExport::Action;
@@ -169,7 +163,7 @@ int main()
 			out << std::endl;
 			out << "Game start!" << std::endl;
 			out << std::endl;
-			state.output(out, "terminal");dbg(state);//patch
+			state.output(out, "terminal");
 
 			fout<<"INIT"<<std::endl;
 			state.output(fout,"");
@@ -179,14 +173,12 @@ int main()
 			for (; !state.calculateScore(scores);)
 			{
 				const IndexType player = state.toMove();
-				//patch
-				//agents[player]->setState(state);
 				out << std::endl;
 				out << "It is " << player_names[player] << "'s turn" << std::endl;
 				const Action action = agents[player]->move(state,in, out);
 				state.move(action);
 				out << std::endl;
-				state.output(out, "terminal");dbg(state);//patch
+				state.output(out, "terminal");
 
 			fout<<"STEP"<<std::endl;
 			fout<<player<<std::endl;

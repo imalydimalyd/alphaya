@@ -57,15 +57,18 @@ namespace AlphaYaExport
 	*/
 	std::unique_ptr<Agent> random_agent(const std::string &config)
 	{
-		RandomAgent::SeedType seed=42;
+		RandomAgent::SeedType seed = 42;
 		std::string argument;
-		for(std::istringstream cfin(config);;){
-			cfin>>argument;
-			if(cfin.fail()){
+		for (std::istringstream cfin(config);;)
+		{
+			cfin >> argument;
+			if (cfin.fail())
+			{
 				break;
 			}
-			if(argument=="seed"){
-				cfin>>seed;
+			if (argument == "seed")
+			{
+				cfin >> seed;
 				continue;
 			}
 		}
@@ -77,29 +80,34 @@ namespace AlphaYaExport
 	*/
 	std::unique_ptr<Agent> mcts_agent(const std::string &config)
 	{
-		MCTSAgent::SeedType seed=42;
-		MCTSAgent::EvalType c=1.0;
-		IndexType simulate_count=10;
+		MCTSAgent::SeedType seed = 42;
+		MCTSAgent::EvalType c = 1.0;
+		IndexType simulate_count = 10;
 		std::string argument;
-		for(std::istringstream cfin(config);;){
-			cfin>>argument;
-			if(cfin.fail()){
+		for (std::istringstream cfin(config);;)
+		{
+			cfin >> argument;
+			if (cfin.fail())
+			{
 				break;
 			}
-			if(argument=="seed"){
-				cfin>>seed;
+			if (argument == "seed")
+			{
+				cfin >> seed;
 				continue;
 			}
-			if(argument=="c"){
-				cfin>>c;
+			if (argument == "c")
+			{
+				cfin >> c;
 				continue;
 			}
-			if(argument=="scount"){
-				cfin>>simulate_count;
+			if (argument == "scount")
+			{
+				cfin >> simulate_count;
 				continue;
 			}
 		}
-		return std::make_unique<MCTSAgent>(seed,c,simulate_count);
+		return std::make_unique<MCTSAgent>(seed, c, simulate_count);
 	}
 
 	/*
@@ -108,8 +116,8 @@ namespace AlphaYaExport
 	*/
 	const AgentConstructor agent_constructors[] = {
 		AgentConstructor("human", "You", input_agent),
-		AgentConstructor("random", "Randomly moving bot", random_agent,true),
-		AgentConstructor("ai", "AI using MCTS algorithm", mcts_agent,true),
+		AgentConstructor("random", "Randomly moving bot", random_agent, true),
+		AgentConstructor("ai", "AI using MCTS algorithm", mcts_agent, true),
 	};
 
 	/*
@@ -121,7 +129,7 @@ namespace AlphaYaExport
 	If allow_customize_state = true, user would be able to input a string as the initial state
 	*/
 	constexpr bool allow_customize_state = false;
-	
+
 	/*
 	If allow_customize_state = true, default_state is the default initial state
 	If allow_customize_state = false, default_state is the only possible initial state
@@ -158,5 +166,5 @@ namespace AlphaYaExport
 	Record file prefix
 	Record files will be saved as records/<prefix>_<time>.txt
 	*/
-	const std::string record_prefix="tictactoe";
+	const std::string record_prefix = "tictactoe";
 };

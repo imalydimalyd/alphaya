@@ -23,7 +23,7 @@ namespace AlphaYa
 		typedef ActionType Action;
 		typedef DataType Data;
 		static constexpr IndexType players = n;
-		static constexpr IndexType byte_count=sizeof(DataType);
+		static constexpr IndexType byte_count = sizeof(DataType);
 
 		union
 		{
