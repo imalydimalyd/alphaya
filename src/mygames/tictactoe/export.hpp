@@ -82,8 +82,8 @@ namespace AlphaYaExport
 	{
 		MCTSAgent::SeedType seed = 42;
 		MCTSAgent::EvalType c = 1.0;
-		IndexType simulate_count = 10;
-		IndexType log_interval = 10;
+		IndexType simulate_count = 1000000;
+		IndexType log_interval = 100000;
 		std::string argument;
 		for (std::istringstream cfin(config);;)
 		{
