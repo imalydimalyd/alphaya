@@ -83,6 +83,7 @@ namespace AlphaYaExport
 		MCTSAgent::SeedType seed = 42;
 		MCTSAgent::EvalType c = 1.0;
 		IndexType simulate_count = 10;
+		IndexType log_interval = 10;
 		std::string argument;
 		for (std::istringstream cfin(config);;)
 		{
@@ -106,8 +107,13 @@ namespace AlphaYaExport
 				cfin >> simulate_count;
 				continue;
 			}
+			if (argument == "loginterval")
+			{
+				cfin >> log_interval;
+				continue;
+			}
 		}
-		return std::make_unique<MCTSAgent>(seed, c, simulate_count);
+		return std::make_unique<MCTSAgent>(seed, c, simulate_count, log_interval);
 	}
 
 	/*

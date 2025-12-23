@@ -30,8 +30,9 @@ namespace AlphaYa
 		std::mt19937 rd;
 		EvalType c;
 		IndexType simulate_count;
+		IndexType log_interval;
 
-		MCTSAgent(SeedType seed, EvalType cc, IndexType s) : rd(seed), c(cc), simulate_count(s) {}
+		MCTSAgent(SeedType seed, EvalType cc, IndexType s, IndexType l) : rd(seed), c(cc), simulate_count(s), log_interval(l) {}
 
 		class Node
 		{
@@ -160,7 +161,7 @@ namespace AlphaYa
 
 			bool has_action = false;
 			Action action;
-			for (IndexType i = 0;; ++i)
+			for (IndexType i = 1;; ++i)
 			{
 				std::shared_ptr<Node> p = root;
 				do
@@ -182,9 +183,12 @@ namespace AlphaYa
 				{
 					has_action = true;
 					action = new_action;
-					out << i << ": ";
-					action.output(out);
-					out << std::endl;
+					if (i % log_interval == 0 || i >= simulate_count)
+					{
+						out << i << ": ";
+						action.output(out);
+						out << std::endl;
+					}
 				}
 				if (has_action && i >= simulate_count)
 				{
