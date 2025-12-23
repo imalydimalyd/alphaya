@@ -84,6 +84,7 @@ namespace AlphaYa
 					}
 				}
 				ScoreType best = children[0].node->scores[player];
+				action = children[0].action;
 				for (const Child &child : children)
 				{
 					if (best < child.node->scores[player])
