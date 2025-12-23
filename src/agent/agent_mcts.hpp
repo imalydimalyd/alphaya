@@ -184,12 +184,12 @@ namespace AlphaYa
 				{
 					has_action = true;
 					action = new_action;
-					if (i % log_interval == 0 || i >= simulate_count)
-					{
-						out << i << ": ";
-						action.output(out);
-						out << std::endl;
-					}
+				}
+				if (i % log_interval == 0 || i >= simulate_count)
+				{
+					out << i << ": ";
+					action.output(out);
+					out << std::endl;
 				}
 				if (has_action && i >= simulate_count)
 				{
