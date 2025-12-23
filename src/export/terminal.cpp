@@ -34,7 +34,7 @@ int main()
 	std::istream &in = std::cin;
 	std::ostream &out = std::cout;
 
-	const auto input_agent = [&](IndexType player,std::string &name,std::string &config)
+	const auto input_agent = [&](IndexType player, std::string &name, std::string &config)
 	{
 		out << std::endl;
 		out << "Available agents are:" << std::endl;
@@ -105,24 +105,27 @@ int main()
 			std::string game_record_filename;
 			{
 				const std::chrono::time_point<std::chrono::system_clock> now = std::chrono::system_clock::now();
-    const std::time_t nowt = std::chrono::system_clock::to_time_t(now);
-	std::ostringstream sout;
-	sout<<"records/"<<record_prefix<<"_"<<std::put_time(std::localtime(&nowt),"%Y%m%d_%H_%M_%S")<<".txt";
-	game_record_filename=sout.str();
+				const std::time_t nowt = std::chrono::system_clock::to_time_t(now);
+				std::ostringstream sout;
+				sout << "records/" << record_prefix << "_" << std::put_time(std::localtime(&nowt), "%Y%m%d_%H_%M_%S") << ".txt";
+				game_record_filename = sout.str();
 			}
 			std::ofstream fout(game_record_filename);
-			fout<<"GAME"<<std::endl;
-			fout<<record_prefix<<std::endl;
-			fout<<"PLAYERS"<<std::endl;
-			fout<<players<<std::endl;
-			if(fout.fail()){
-				out<<"WARNING: folder \"records\" not found, game will not be saved"<<std::endl;
-				for(std::string confirm;;){
-				out<<"Input \"confirm\" and press Enter to confirm this warning: ";
-				std::getline(in,confirm);
-				if(confirm=="confirm"){
-					break;
-				}
+			fout << "GAME" << std::endl;
+			fout << record_prefix << std::endl;
+			fout << "PLAYERS" << std::endl;
+			fout << players << std::endl;
+			if (fout.fail())
+			{
+				out << "WARNING: folder \"records\" not found, game will not be saved" << std::endl;
+				for (std::string confirm;;)
+				{
+					out << "Input \"confirm\" and press Enter to confirm this warning: ";
+					std::getline(in, confirm);
+					if (confirm == "confirm")
+					{
+						break;
+					}
 				}
 			}
 
@@ -150,12 +153,12 @@ int main()
 			agents.reserve(players);
 			for (IndexType player = 0; player < players; ++player)
 			{
-				std::string name,config;
-				agents.push_back(input_agent(player,name,config));
-			fout<<"PLAYER"<<std::endl;
-			fout<<player<<std::endl;
-			fout<<name<<std::endl;
-			fout<<config<<std::endl;
+				std::string name, config;
+				agents.push_back(input_agent(player, name, config));
+				fout << "PLAYER" << std::endl;
+				fout << player << std::endl;
+				fout << name << std::endl;
+				fout << config << std::endl;
 			}
 
 			State state;
@@ -165,9 +168,9 @@ int main()
 			out << std::endl;
 			state.output(out, "terminal");
 
-			fout<<"INIT"<<std::endl;
-			state.output(fout,"");
-			fout<<std::endl;
+			fout << "INIT" << std::endl;
+			state.output(fout, "");
+			fout << std::endl;
 
 			ScoreType scores[players];
 			for (; !state.calculateScore(scores);)
@@ -175,17 +178,17 @@ int main()
 				const IndexType player = state.toMove();
 				out << std::endl;
 				out << "It is " << player_names[player] << "'s turn" << std::endl;
-				const Action action = agents[player]->move(state,in, out);
+				const Action action = agents[player]->move(state, in, out);
 				state.move(action);
 				out << std::endl;
 				state.output(out, "terminal");
 
-			fout<<"STEP"<<std::endl;
-			fout<<player<<std::endl;
-			action.output(fout);
-			fout<<std::endl;
-			state.output(fout,"");
-			fout<<std::endl;
+				fout << "STEP" << std::endl;
+				fout << player << std::endl;
+				action.output(fout);
+				fout << std::endl;
+				state.output(fout, "");
+				fout << std::endl;
 			}
 			out << std::endl;
 			out << "Game over! Score:" << std::endl;
@@ -194,13 +197,14 @@ int main()
 				out << "Score of " << player_names[player] << ": " << scores[player] << std::endl;
 			}
 			out << std::endl;
-			fout<<"SCORE"<<std::endl;
+			fout << "SCORE" << std::endl;
 			for (IndexType player = 0; player < players; ++player)
 			{
-				fout <<  scores[player] << std::endl;
+				fout << scores[player] << std::endl;
 			}
-			if(!fout.fail()){
-				out<<"Game record saved to "<<game_record_filename<<std::endl;
+			if (!fout.fail())
+			{
+				out << "Game record saved to " << game_record_filename << std::endl;
 			}
 			fout.close();
 			continue;
