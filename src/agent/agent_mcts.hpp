@@ -82,14 +82,12 @@ namespace AlphaYa
 						return false;
 					}
 				}
-				EvalType best = -INFINITY;
+				ScoreType best = children[0].node->scores[player];
 				for (const Child &child : children)
 				{
-					const std::shared_ptr<Node> &node = child.node;
-					EvalType eval = ((EvalType)(node->scores[player])) / ((EvalType)(node->count));
-					if (best < eval)
+					if (best < child.node->scores[player])
 					{
-						best = eval;
+						best = child.node->scores[player];
 						action = child.action;
 					}
 				}
