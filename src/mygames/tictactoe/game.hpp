@@ -39,6 +39,14 @@ namespace AlphaYa
 			{
 				out << (char)('a' + position % 3) << (char)('1' + position / 3);
 			}
+
+			/*
+			Check if two actions are equal
+			*/
+			bool operator==(const TicTacToeAction &o) const
+			{
+				return position==o.position;
+			}
 		};
 
 		static const std::uint16_t lines[] = {

@@ -4,6 +4,7 @@
 #include "../../agent/agent.hpp"
 #include "../../agent/agent_input.hpp"
 #include "../../agent/agent_random.hpp"
+#include "../../agent/agent_mcts.hpp"
 #include "game.hpp"
 
 #include <functional>
@@ -25,6 +26,7 @@ namespace AlphaYaExport
 	typedef AlphaYa::Agent<State> Agent;
 	typedef AlphaYa::InputAgent<State> InputAgent;
 	typedef AlphaYa::RandomAgent<State> RandomAgent;
+	typedef AlphaYa::MCTSAgent<State> MCTSAgent;
 
 	constexpr IndexType players = State::players;
 
@@ -71,12 +73,43 @@ namespace AlphaYaExport
 	}
 
 	/*
+	MCTS agent: use MCTS algorithm
+	*/
+	std::unique_ptr<Agent> mcts_agent(const std::string &config)
+	{
+		MCTSAgent::SeedType seed=42;
+		MCTSAgent::EvalType c=1.0;
+		IndexType simulate_count=10;
+		std::string argument;
+		for(std::istringstream cfin(config);;){
+			cfin>>argument;
+			if(cfin.fail()){
+				break;
+			}
+			if(argument=="seed"){
+				cfin>>seed;
+				continue;
+			}
+			if(argument=="c"){
+				cfin>>c;
+				continue;
+			}
+			if(argument=="scount"){
+				cfin>>simulate_count;
+				continue;
+			}
+		}
+		return std::make_unique<MCTSAgent>(seed,c,simulate_count);
+	}
+
+	/*
 	Agent constructors
 	Format: AgentConstructor("name", "description", constructor, needconfig(bool))
 	*/
 	const AgentConstructor agent_constructors[] = {
 		AgentConstructor("human", "You", input_agent),
 		AgentConstructor("random", "Randomly moving bot", random_agent,true),
+		AgentConstructor("ai", "AI using MCTS algorithm", mcts_agent,true),
 	};
 
 	/*
@@ -103,12 +136,12 @@ namespace AlphaYaExport
 	/*
 	The default agent for each player
 	*/
-	const std::string default_agents[players] = {"random", "random"};
+	const std::string default_agents[players] = {"ai", "human"};
 
 	/*
 	The default agent config for each player
 	*/
-	const std::string default_agent_config[players] = {"", "seed 1"};
+	const std::string default_agent_config[players] = {"", ""};
 
 	/*
 	Help string

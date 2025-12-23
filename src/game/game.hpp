@@ -39,6 +39,14 @@ namespace AlphaYa
 		{
 			return data.content;
 		}
+		std::uint8_t *getBytes()
+		{
+			return data.bytes;
+		}
+		const std::uint8_t *getBytes() const
+		{
+			return data.bytes;
+		}
 
 		virtual IndexType toMove() const = 0;
 		virtual std::vector<Action> generateActions() const = 0;

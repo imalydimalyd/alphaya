@@ -14,6 +14,8 @@ namespace AlphaYa
 	class InputAgent : public Agent<StateType>
 	{
 	public:
+		static constexpr IndexType players = StateType::players;
+
 		typedef StateType State;
 		typedef typename State::Action Action;
 		typedef typename State::Data Data;
