@@ -55,7 +55,7 @@ namespace AlphaYa
 			Node(const State &s, std::mt19937 &rd) : state(s)
 			{
 				is_final = state.calculateScore(scores);
-				count = is_final ? 1 : 0;
+				count = 0;
 				children.clear();
 				if (!is_final)
 				{
@@ -75,21 +75,16 @@ namespace AlphaYa
 
 			bool best_action(Action &action) const
 			{
-				IndexType player = state.toMove();
+				ScoreType best = 0;
 				for (const Child &child : children)
 				{
 					if (!child.node)
 					{
 						return false;
 					}
-				}
-				ScoreType best = children[0].node->scores[player];
-				action = children[0].action;
-				for (const Child &child : children)
-				{
-					if (best < child.node->scores[player])
+					if (best < child.node->count)
 					{
-						best = child.node->scores[player];
+						best = child.node->count;
 						action = child.action;
 					}
 				}
@@ -133,13 +128,19 @@ namespace AlphaYa
 					return child.node;
 				}
 			}
-			EvalType best = -INFINITY, k = c * std::sqrt(std::log((EvalType)node->count));
+			EvalType best = -INFINITY;
+			const EvalType k = c * std::sqrt(std::log((EvalType)node->count));
 			std::shared_ptr<Node> best_node;
 			for (const typename Node::Child &child : node->children)
 			{
 				const std::shared_ptr<Node> &node = child.node;
-				EvalType count = (EvalType)(node->count);
-				EvalType eval = ((EvalType)(node->scores[player])) / count + k / std::sqrt(count);
+				const EvalType count = (EvalType)(node->count);
+				EvalType average = (EvalType)(node->scores[player]);
+				if (!node->is_final)
+				{
+					average /= count;
+				}
+				const EvalType eval = average + k / std::sqrt(count);
 				if (best < eval)
 				{
 					best = eval;
@@ -169,7 +170,8 @@ namespace AlphaYa
 				{
 					p = explore(p, c, rd);
 				} while (!p->is_final);
-				ScoreType *scores = p->scores;
+				++p->count;
+				const ScoreType *scores = p->scores;
 				do
 				{
 					p = p->father.lock();
@@ -179,17 +181,32 @@ namespace AlphaYa
 						p->scores[player] += scores[player];
 					}
 				} while (p != root);
-				Action new_action;
-				if (root->best_action(new_action) && (!has_action || !(action == new_action)))
+				if (root->best_action(action))
 				{
 					has_action = true;
-					action = new_action;
 				}
-				if (i % log_interval == 0 || i >= simulate_count)
+				if ((i % log_interval == 0 || i >= simulate_count) && has_action)
 				{
+					IndexType player = root->state.toMove();
+					EvalType expected = 0.0;
+					for (const typename Node::Child &child : root->children)
+					{
+						if (action == child.action)
+						{
+							if (child.node->is_final)
+							{
+								expected = ((EvalType)child.node->scores[player]);
+							}
+							else
+							{
+								expected = ((EvalType)child.node->scores[player]) / ((EvalType)child.node->count);
+							}
+							break;
+						}
+					}
 					out << i << ": ";
 					action.output(out);
-					out << std::endl;
+					out << " " << expected << std::endl;
 				}
 				if (has_action && i >= simulate_count)
 				{
