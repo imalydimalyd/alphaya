@@ -1,6 +1,9 @@
 #ifdef GAME_TIC_TAC_TOE
 #include "../mygames/tictactoe/export.hpp"
 #endif
+#ifdef GAME_GOMOKU
+#include "../mygames/gomoku/export.hpp"
+#endif
 
 #include <chrono>
 #include <ctime>
@@ -95,7 +98,7 @@ int main()
 		}
 	};
 
-	out << "\033[0;32mOK! Input \".play\" and press Enter to play tic-tac-toe\033[0m" << std::endl; // patch
+	out << "\033[0;32mOK! Input \".play\" and press Enter to play\033[0m" << std::endl; // patch
 	for (std::string cmd;;)
 	{
 		std::getline(in, cmd);
