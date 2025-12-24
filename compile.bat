@@ -27,7 +27,7 @@ IF %ERRORLEVEL% EQU 0 (
 	exit /b %ERRORLEVEL%
 )
 
-call cl /std:c++14 /w /O2 src\export\terminal.cpp -DGAME_%1 /Fedist\windows\%1.exe
+call cl /std:c++14 /w /O2 /fp:fast src\export\terminal.cpp -DGAME_%1 /Fedist\windows\%1.exe
 IF %ERRORLEVEL% EQU 0 (
 	echo MSVC OK
 	call dist\windows\%1.exe
