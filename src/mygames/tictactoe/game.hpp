@@ -183,7 +183,7 @@ namespace AlphaYa
 				const TicTacToeData &data = getData();
 				if (method == "terminal")
 				{
-					out << "\033[0;90m    a   b   c \033[0m" << std::endl;
+					out << "\033[0;37;90m    a   b   c \033[0m" << std::endl;
 					out << "              " << std::endl;
 					for (IndexType i = 0; i < 3; ++i)
 					{
@@ -191,7 +191,7 @@ namespace AlphaYa
 						{
 							out << "   ---+---+---" << std::endl;
 						}
-						out << "\033[0;90m" << (i + 1) << "\033[0m  ";
+						out << "\033[0;37;90m" << (i + 1) << "\033[0m  ";
 						for (IndexType j = 0; j < 3; ++j)
 						{
 							if (j)
