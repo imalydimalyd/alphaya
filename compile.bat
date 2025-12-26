@@ -30,7 +30,7 @@ IF %ERRORLEVEL% EQU 0 (
 call cl /std:c++14 /w /O2 /fp:fast src\export\terminal.cpp -DGAME_%1 /Fedist\windows\%1.exe
 IF %ERRORLEVEL% EQU 0 (
 	echo MSVC OK
-	call dist\windows\%1.exe
+	start dist\windows\%1.exe
 ) ELSE (
 	echo MSVC ERROR %ERRORLEVEL%
 	exit /b %ERRORLEVEL%
