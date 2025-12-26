@@ -257,8 +257,6 @@ namespace AlphaYa
 				const GomokuData &data = getData();
 				if (method == "terminal")
 				{
-					// out << "\033[0;90m    a   b   c \033[0m" << std::endl;
-					// out << "              " << std::endl;
 					for (IndexType i = GOMOKU_HEIGHT - 1; ~i; --i)
 					{
 						out << "\033[0;37;90m" << std::setw(2) << (i + 1) << "\033[0m \033[30;43;103;48;5;222m ";
