@@ -296,7 +296,7 @@ namespace AlphaYa
 					{
 						if (bitboard_i >> j & 1)
 						{
-							out << ((bitboard1_i >> j & 1) ? "O " : "X ") << (char)('a' + i) << " " << (1 + j) << " ";
+							out << ((bitboard1_i >> j & 1) ? "O " : "X ") << (char)('a' + j) << " " << (1 + i) << " ";
 						}
 					}
 				}
